@@ -6,7 +6,7 @@ set -e
 cd /opt/myapp/GONG-Vue3-FastAPI
 
 git fetch --all
-git reset --hard origin/main
+git reset --hard origin/master
 
 cd ruoyi-fastapi-backend
 
