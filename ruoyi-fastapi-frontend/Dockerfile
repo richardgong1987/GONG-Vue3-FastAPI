@@ -1,12 +1,9 @@
 # 构建阶段
-FROM node:18-slim AS builder
+FROM node:24-bookworm-slim AS builder
 WORKDIR /app
 
 # 复制源代码
 COPY . .
-
-# 设置npm镜像源
-RUN npm config set registry https://registry.npmmirror.com
 
 # 安装依赖
 RUN npm install
