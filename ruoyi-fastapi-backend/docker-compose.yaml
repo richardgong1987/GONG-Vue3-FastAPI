@@ -3,8 +3,6 @@ services:
     image: gong-fastapi-backend:latest
     container_name: gong-fastapi-backend-1
     restart: always
-    volumes:
-      - /opt/rod-browser-cache:/root/.cache/rod/browser
     networks:
       - edge
     ports:
