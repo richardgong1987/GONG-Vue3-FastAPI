@@ -1,14 +1,16 @@
+# syntax=docker/dockerfile:1.7
 FROM python:3.12
 WORKDIR /app
 
-# 复制源代码
+# 先复制依赖文件，保证依赖不变时这一层可复用
+COPY requirements-pg.txt .
+
+# 把 pip cache 挂载成构建缓存（会落在宿主机的 docker build cache 里）
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip install --no-cache-dir -r requirements-pg.txt
+
+# 再复制源码（源码变更不会导致依赖层重装）
 COPY . .
 
-# 安装依赖
-RUN pip install --no-cache-dir -r requirements-pg.txt
-
-# 暴露端口
 EXPOSE 9099
-
-# 启动命令
 CMD ["python", "app.py", "--env=dockerpg"]

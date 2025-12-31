@@ -1,6 +1,6 @@
 docker image prune -f
 
-docker build -f Dockerfile.pg -t gong-fastapi-backend:latest .
+DOCKER_BUILDKIT=1 docker build -f Dockerfile.pg -t gong-fastapi-backend:latest .
 
 docker images
 
