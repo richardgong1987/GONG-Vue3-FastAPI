@@ -3,11 +3,5 @@ services:
     image: gong-fastapi-backend:latest
     container_name: gong-fastapi-backend-1
     restart: always
-    networks:
-      - edge
     ports:
      - "9099:9099"
-
-networks:
-  edge:
-    external: true
