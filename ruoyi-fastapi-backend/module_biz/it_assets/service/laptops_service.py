@@ -18,7 +18,7 @@ class LaptopsService:
 
     @classmethod
     async def get_laptops_list_services(
-        cls, query_db: AsyncSession, query_object: LaptopsPageQueryModel, is_page: bool = False
+            cls, query_db: AsyncSession, query_object: LaptopsPageQueryModel, is_page: bool = False
     ) -> Union[PageModel, list[dict[str, Any]]]:
         """
         获取laptop管理列表信息service
@@ -31,7 +31,6 @@ class LaptopsService:
         laptops_list_result = await LaptopsDao.get_laptops_list(query_db, query_object, is_page)
 
         return laptops_list_result
-
 
     @classmethod
     async def add_laptops_services(cls, query_db: AsyncSession, page_object: LaptopsModel) -> CrudResponseModel:
@@ -73,7 +72,8 @@ class LaptopsService:
             raise ServiceException(message='laptop管理不存在')
 
     @classmethod
-    async def delete_laptops_services(cls, query_db: AsyncSession, page_object: DeleteLaptopsModel) -> CrudResponseModel:
+    async def delete_laptops_services(cls, query_db: AsyncSession,
+                                      page_object: DeleteLaptopsModel) -> CrudResponseModel:
         """
         删除laptop管理信息service
 

@@ -39,7 +39,8 @@ class LaptopsDao:
         return laptops_info
 
     @classmethod
-    async def get_laptops_detail_by_info(cls, db: AsyncSession, laptops: LaptopsModel) -> Union[BizLaptopManagement, None]:
+    async def get_laptops_detail_by_info(cls, db: AsyncSession, laptops: LaptopsModel) -> Union[
+        BizLaptopManagement, None]:
         """
         根据laptop管理参数获取laptop管理信息
 
@@ -62,7 +63,7 @@ class LaptopsDao:
 
     @classmethod
     async def get_laptops_list(
-        cls, db: AsyncSession, query_object: LaptopsPageQueryModel, is_page: bool = False
+            cls, db: AsyncSession, query_object: LaptopsPageQueryModel, is_page: bool = False
     ) -> Union[PageModel, list[dict[str, Any]]]:
         """
         根据查询参数获取laptop管理列表信息
@@ -84,7 +85,8 @@ class LaptopsDao:
                 BizLaptopManagement.microsoft_account == query_object.microsoft_account if query_object.microsoft_account else True,
                 BizLaptopManagement.product_id == query_object.product_id if query_object.product_id else True,
                 BizLaptopManagement.sku_id == query_object.sku_id if query_object.sku_id else True,
-                BizLaptopManagement.license_name.like(f'%{query_object.license_name}%') if query_object.license_name else True,
+                BizLaptopManagement.license_name.like(
+                    f'%{query_object.license_name}%') if query_object.license_name else True,
                 BizLaptopManagement.license_description == query_object.license_description if query_object.license_description else True,
                 BizLaptopManagement.beta_expiration == query_object.beta_expiration if query_object.beta_expiration else True,
                 BizLaptopManagement.license_status == query_object.license_status if query_object.license_status else True,
@@ -135,4 +137,3 @@ class LaptopsDao:
         :return:
         """
         await db.execute(delete(BizLaptopManagement).where(BizLaptopManagement.id.in_([laptops.id])))
-

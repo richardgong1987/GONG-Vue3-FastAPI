@@ -14,8 +14,6 @@ class LaptopsModel(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, from_attributes=True)
 
     id: Optional[int] = Field(default=None, description='id')
-    id: Optional[int] = Field(default=None, description='id')
-    id: Optional[int] = Field(default=None, description='id')
     created_at: Optional[datetime] = Field(default=None, description='created_at')
     created_by: Optional[int] = Field(default=None, description='created_by')
     creator: Optional[str] = Field(default=None, description='creator')
