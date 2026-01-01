@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, DateTime, BigInteger, Identity
+from sqlalchemy import Column, String, DateTime, BigInteger, Identity, func
 
 from config.database import Base
 
@@ -15,7 +15,7 @@ class BizLaptopManagement(Base):
     created_at = Column(DateTime, nullable=True, comment='created_at')
     created_by = Column(BigInteger, nullable=False, comment='created_by')
     creator = Column(String, nullable=True, comment='creator')
-    updated_at = Column(DateTime, nullable=False, comment='updated_at')
+    updated_at = Column(DateTime, nullable=False, comment='updated_at', server_default=func.now())
     updated_by = Column(BigInteger, nullable=False, comment='updated_by')
     updater = Column(String, nullable=True, comment='updater')
     deleted_by = Column(BigInteger, nullable=False, comment='deleted_by')
