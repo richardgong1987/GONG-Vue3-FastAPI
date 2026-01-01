@@ -98,7 +98,7 @@
 
     <!-- 添加或修改laptop管理对话框 -->
     <el-dialog :title="title" v-model="open" width="1200px" append-to-body>
-      <el-form ref="laptopsRef" :model="form" :rules="rules" label-width="220px">
+      <el-form ref="laptopsRef" :model="form" :rules="rules" label-width="180px">
         <el-form-item v-if="renderField(true, true)" label="番号" prop="laptopCode">
           <el-input v-model="form.laptopCode" placeholder="请输入番号"/>
         </el-form-item>
@@ -122,16 +122,6 @@
         </el-form-item>
         <el-form-item v-if="renderField(true, true)" label="BETA_EXPIRATION" prop="betaExpiration">
           <el-input v-model="form.betaExpiration" placeholder="请输入BETA_EXPIRATION"/>
-        </el-form-item>
-        <el-form-item v-if="renderField(true, true)" label="LICENSE_STATUS" prop="licenseStatus">
-          <el-radio-group v-model="form.licenseStatus">
-            <el-radio label="请选择字典生成" value=""/>
-          </el-radio-group>
-        </el-form-item>
-        <el-form-item v-if="renderField(true, true)" label="status" prop="status">
-          <el-radio-group v-model="form.status">
-            <el-radio label="请选择字典生成" value=""/>
-          </el-radio-group>
         </el-form-item>
         <el-form-item v-if="renderField(true, true)" label="remark" prop="remark">
           <el-input v-model="form.remark" placeholder="请输入remark"/>
