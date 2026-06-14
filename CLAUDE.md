@@ -28,6 +28,8 @@ The `ruoyi` command comes from `pyproject.toml` (`project.scripts: ruoyi = "cli.
 
 Environment is selected by `--env` and loaded from `.env.<env>` files (`.env.dev`, `.env.prod`, `.env.dockermy`, `.env.dockerpg`) at the backend root. Configure DB/Redis there before first run, then load the SQL schema from `sql/ruoyi-fastapi.sql` (MySQL) or `sql/ruoyi-fastapi-pg.sql` (PostgreSQL).
 
+For full start/stop steps (backend + frontend), prerequisites, and how to check whether services are already running, see `docs/startup.md`.
+
 ### Frontend (`ruoyi-fastapi-frontend/`)
 ```bash
 npm install --registry=https://registry.npmmirror.com
@@ -76,7 +78,7 @@ module_x/
 Dependency direction is controller → service → dao → entity. `vo` (value objects / Pydantic) cross all layers; `do` (ORM) stays in dao/service. Keep business rules in `service`, not in controllers or dao.
 
 ### Auto-registered routers
-There is **no central router include list**. `common/router.RouterRegister` globs `*/controller/[!_]*.py`, imports each module, and registers every module-level `APIRouterPro` instance it finds (see `auto_register_routers` called from `server.py`). Routers are ordered by their `order_num` (lower = earlier). To add an endpoint group, create a `*_controller.py` defining a module-level `APIRouterPro(prefix=..., order_num=..., tags=..., dependencies=[...])` — it is wired up automatically.
+There is **no central router include list**. `common/router.RouterRegister` globs `*/controller/[!_]*.py`, imports each module, and registers every module-level `APIRouterPro` instance it finds (see `auto_register_routers` called from `server.py`). Routers are ordered by their `order_num` (lower = earlier). To add an endpoint group, create a `*_controller.py` defining a module-level `APIRouterPro(prefix=..., order_num=..., tags=..., dependencies=[...])` — it is wired up automatically. For the full scan mechanism (discovery glob, `auto_register` opt-out, sort rules, and why `sub_applications` is mounted separately), see `docs/router-auto-registration.md`.
 
 ### Cross-cutting concerns (read these before adding endpoints)
 - `common/aspect/` — dependency-injection helpers attached to routes: `pre_auth.PreAuthDependency` / `CurrentUserDependency` (auth + current user), `db_seesion.DBSessionDependency` (async session), `data_scope.DataScopeDependency` (row-level data scope filtering by dept/role), `interface_auth.UserInterfaceAuthDependency` (permission-string checks). Controllers compose these as FastAPI `Depends`.
