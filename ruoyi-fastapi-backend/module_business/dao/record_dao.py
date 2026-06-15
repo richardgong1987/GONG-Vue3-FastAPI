@@ -4,8 +4,8 @@ from sqlalchemy import delete, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from common.vo import PageModel
-from module_business.admin.entity.do.record_do import TrdTradeRecord
-from module_business.admin.entity.vo.record_vo import RecordModel, RecordPageQueryModel
+from module_business.entity.do.record_do import TrdTradeRecord
+from module_business.entity.vo.record_vo import RecordModel, RecordPageQueryModel
 from utils.page_util import PageUtil
 
 
@@ -23,18 +23,7 @@ class RecordDao:
         :param id: 主键ID
         :return: 交易研究记录信息对象
         """
-        record_info = (
-            (
-                await db.execute(
-                    select(TrdTradeRecord)
-                    .where(
-                        TrdTradeRecord.id == id
-                    )
-                )
-            )
-            .scalars()
-            .first()
-        )
+        record_info = (await db.execute(select(TrdTradeRecord).where(TrdTradeRecord.id == id))).scalars().first()
 
         return record_info
 
@@ -47,16 +36,7 @@ class RecordDao:
         :param record: 交易研究记录参数对象
         :return: 交易研究记录信息对象
         """
-        record_info = (
-            (
-                await db.execute(
-                    select(TrdTradeRecord).where(
-                    )
-                )
-            )
-            .scalars()
-            .first()
-        )
+        record_info = (await db.execute(select(TrdTradeRecord).where())).scalars().first()
 
         return record_info
 
@@ -79,11 +59,21 @@ class RecordDao:
                 TrdTradeRecord.key_point == query_object.key_point if query_object.key_point else True,
                 TrdTradeRecord.direction == query_object.direction if query_object.direction else True,
                 TrdTradeRecord.signal == query_object.signal if query_object.signal else True,
-                TrdTradeRecord.close_entry_result == query_object.close_entry_result if query_object.close_entry_result else True,
-                TrdTradeRecord.retrace25_result == query_object.retrace25_result if query_object.retrace25_result else True,
-                TrdTradeRecord.retrace382_result == query_object.retrace382_result if query_object.retrace382_result else True,
-                TrdTradeRecord.retrace50_result == query_object.retrace50_result if query_object.retrace50_result else True,
-                TrdTradeRecord.move_to_breakeven_at_r == query_object.move_to_breakeven_at_r if query_object.move_to_breakeven_at_r else True,
+                TrdTradeRecord.close_entry_result == query_object.close_entry_result
+                if query_object.close_entry_result
+                else True,
+                TrdTradeRecord.retrace25_result == query_object.retrace25_result
+                if query_object.retrace25_result
+                else True,
+                TrdTradeRecord.retrace382_result == query_object.retrace382_result
+                if query_object.retrace382_result
+                else True,
+                TrdTradeRecord.retrace50_result == query_object.retrace50_result
+                if query_object.retrace50_result
+                else True,
+                TrdTradeRecord.move_to_breakeven_at_r == query_object.move_to_breakeven_at_r
+                if query_object.move_to_breakeven_at_r
+                else True,
                 TrdTradeRecord.remark.like(f'%{query_object.remark}%') if query_object.remark else True,
                 TrdTradeRecord.extra.like(f'%{query_object.extra}%') if query_object.extra else True,
             )
@@ -132,4 +122,3 @@ class RecordDao:
         :return:
         """
         await db.execute(delete(TrdTradeRecord).where(TrdTradeRecord.id.in_([record.id])))
-

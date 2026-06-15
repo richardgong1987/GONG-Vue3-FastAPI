@@ -5,8 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from common.constant import CommonConstant
 from common.vo import CrudResponseModel, PageModel
 from exceptions.exception import ServiceException
-from module_business.admin.dao.record_dao import RecordDao
-from module_business.admin.entity.vo.record_vo import DeleteRecordModel, RecordModel, RecordPageQueryModel
+from module_business.dao.record_dao import RecordDao
+from module_business.entity.vo.record_vo import DeleteRecordModel, RecordModel, RecordPageQueryModel
 from utils.common_util import CamelCaseUtil
 from utils.excel_util import ExcelUtil
 

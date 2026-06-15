@@ -14,7 +14,6 @@ class RecordModel(BaseModel):
     model_config = ConfigDict(alias_generator=to_camel, from_attributes=True)
 
     id: int | None = Field(default=None, description='主键ID')
-    id: int | None = Field(default=None, description='主键ID')
     key_point: str | None = Field(default=None, description='关键位，例如 PDH / PDL / PWH')
     direction: str | None = Field(default=None, description='多空：B=Buy，S=Sell')
     signal: str | None = Field(default=None, description='信号：顶分型 / pinbar / 吞没')

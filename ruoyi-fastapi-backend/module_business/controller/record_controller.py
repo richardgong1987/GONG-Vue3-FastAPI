@@ -13,15 +13,14 @@ from common.enums import BusinessType
 from common.router import APIRouterPro
 from common.vo import DataResponseModel, PageResponseModel, ResponseBaseModel
 from module_admin.entity.vo.user_vo import CurrentUserModel
-from module_business.admin.service.record_service import RecordService
-from module_business.admin.entity.vo.record_vo import DeleteRecordModel, RecordModel, RecordPageQueryModel
+from module_business.entity.vo.record_vo import DeleteRecordModel, RecordModel, RecordPageQueryModel
+from module_business.service.record_service import RecordService
 from utils.common_util import bytes2file_response
 from utils.log_util import logger
 from utils.response_util import ResponseUtil
 
-
 record_controller = APIRouterPro(
-    prefix='/admin/record', order_num=50, tags=['交易研究记录'], dependencies=[PreAuthDependency()]
+    prefix='/trd_trade_record/record', order_num=50, tags=['交易研究记录'], dependencies=[PreAuthDependency()]
 )
 
 
@@ -30,11 +29,11 @@ record_controller = APIRouterPro(
     summary='获取交易研究记录分页列表接口',
     description='用于获取交易研究记录分页列表',
     response_model=PageResponseModel[RecordModel],
-    dependencies=[UserInterfaceAuthDependency('admin:record:list')],
+    dependencies=[UserInterfaceAuthDependency('trd_trade_record:record:list')],
 )
-async def get_admin_record_list(
+async def get_trd_trade_record_record_list(
     request: Request,
-record_page_query: Annotated[RecordPageQueryModel, Query()],
+    record_page_query: Annotated[RecordPageQueryModel, Query()],
     query_db: Annotated[AsyncSession, DBSessionDependency()],
 ) -> Response:
     # 获取分页数据
@@ -49,11 +48,11 @@ record_page_query: Annotated[RecordPageQueryModel, Query()],
     summary='新增交易研究记录接口',
     description='用于新增交易研究记录',
     response_model=ResponseBaseModel,
-    dependencies=[UserInterfaceAuthDependency('admin:record:add')],
+    dependencies=[UserInterfaceAuthDependency('trd_trade_record:record:add')],
 )
 @ValidateFields(validate_model='add_record')
 @Log(title='交易研究记录', business_type=BusinessType.INSERT)
-async def add_admin_record(
+async def add_trd_trade_record_record(
     request: Request,
     add_record: RecordModel,
     query_db: Annotated[AsyncSession, DBSessionDependency()],
@@ -70,11 +69,11 @@ async def add_admin_record(
     summary='编辑交易研究记录接口',
     description='用于编辑交易研究记录',
     response_model=ResponseBaseModel,
-    dependencies=[UserInterfaceAuthDependency('admin:record:edit')],
+    dependencies=[UserInterfaceAuthDependency('trd_trade_record:record:edit')],
 )
 @ValidateFields(validate_model='edit_record')
 @Log(title='交易研究记录', business_type=BusinessType.UPDATE)
-async def edit_admin_record(
+async def edit_trd_trade_record_record(
     request: Request,
     edit_record: RecordModel,
     query_db: Annotated[AsyncSession, DBSessionDependency()],
@@ -91,10 +90,10 @@ async def edit_admin_record(
     summary='删除交易研究记录接口',
     description='用于删除交易研究记录',
     response_model=ResponseBaseModel,
-    dependencies=[UserInterfaceAuthDependency('admin:record:remove')],
+    dependencies=[UserInterfaceAuthDependency('trd_trade_record:record:remove')],
 )
 @Log(title='交易研究记录', business_type=BusinessType.DELETE)
-async def delete_admin_record(
+async def delete_trd_trade_record_record(
     request: Request,
     ids: Annotated[str, Path(description='需要删除的主键ID')],
     query_db: Annotated[AsyncSession, DBSessionDependency()],
@@ -111,9 +110,9 @@ async def delete_admin_record(
     summary='获取交易研究记录详情接口',
     description='用于获取指定交易研究记录的详细信息',
     response_model=DataResponseModel[RecordModel],
-    dependencies=[UserInterfaceAuthDependency('admin:record:query')]
+    dependencies=[UserInterfaceAuthDependency('trd_trade_record:record:query')],
 )
-async def query_detail_admin_record(
+async def query_detail_trd_trade_record_record(
     request: Request,
     id: Annotated[int, Path(description='主键ID')],
     query_db: Annotated[AsyncSession, DBSessionDependency()],
@@ -137,10 +136,10 @@ async def query_detail_admin_record(
             },
         }
     },
-    dependencies=[UserInterfaceAuthDependency('admin:record:export')],
+    dependencies=[UserInterfaceAuthDependency('trd_trade_record:record:export')],
 )
 @Log(title='交易研究记录', business_type=BusinessType.EXPORT)
-async def export_admin_record_list(
+async def export_trd_trade_record_record_list(
     request: Request,
     record_page_query: Annotated[RecordPageQueryModel, Form()],
     query_db: Annotated[AsyncSession, DBSessionDependency()],
