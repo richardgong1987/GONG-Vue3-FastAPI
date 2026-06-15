@@ -1,0 +1,1 @@
+ruoyi app run --env=dev
