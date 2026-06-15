@@ -62,14 +62,14 @@ class RecordDao:
                 TrdTradeRecord.close_entry_result == query_object.close_entry_result
                 if query_object.close_entry_result
                 else True,
-                TrdTradeRecord.retrace25_result == query_object.retrace25_result
-                if query_object.retrace25_result
+                TrdTradeRecord.retrace_25_result == query_object.retrace_25_result
+                if query_object.retrace_25_result
                 else True,
-                TrdTradeRecord.retrace382_result == query_object.retrace382_result
-                if query_object.retrace382_result
+                TrdTradeRecord.retrace_382_result == query_object.retrace_382_result
+                if query_object.retrace_382_result
                 else True,
-                TrdTradeRecord.retrace50_result == query_object.retrace50_result
-                if query_object.retrace50_result
+                TrdTradeRecord.retrace_50_result == query_object.retrace_50_result
+                if query_object.retrace_50_result
                 else True,
                 TrdTradeRecord.move_to_breakeven_at_r == query_object.move_to_breakeven_at_r
                 if query_object.move_to_breakeven_at_r

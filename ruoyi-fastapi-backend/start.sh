@@ -1,1 +1,1 @@
-ruoyi app run --env=dev
+python app.py --env=dev
