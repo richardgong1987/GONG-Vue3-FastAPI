@@ -8,7 +8,8 @@ COPY . .
 # 安装依赖
 RUN npm install
 
-# 执行docker构建命令
+# 执行docker构建命令（提高 Node 堆上限，避免 vite 构建 OOM）
+ENV NODE_OPTIONS=--max-old-space-size=4096
 RUN npm run build:docker
 
 # 运行阶段

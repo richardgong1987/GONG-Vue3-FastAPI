@@ -1,11 +1,12 @@
 services:
-  # 前端服务
+  # 前端服务（内置 nginx，应用层，经常重建）
   ruoyi-frontend:
     build:
       context: ./ruoyi-fastapi-frontend
       dockerfile: Dockerfile
     image: ruoyi-frontend:latest
     container_name: ruoyi-frontend
+    restart: unless-stopped
     ports:
       - "12580:80"
     volumes:
@@ -15,13 +16,14 @@ services:
     networks:
       - ruoyi-network
 
-  # 后端服务（PostgreSQL版本）
+  # 后端服务（PostgreSQL版本，应用层，经常重建）
   ruoyi-backend-pg:
     build:
       context: ./ruoyi-fastapi-backend
       dockerfile: Dockerfile.pg
     image: ruoyi-backend-pg:latest
     container_name: ruoyi-backend-pg
+    restart: unless-stopped
     ports:
       - "19099:9099"
     depends_on:
@@ -32,10 +34,11 @@ services:
     networks:
       - ruoyi-network
 
-  # PostgreSQL服务
+  # PostgreSQL服务（有状态，数据持久化到命名卷，无需每次重建）
   ruoyi-pg:
     image: postgres:14
     container_name: ruoyi-pg
+    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: ruoyi-fastapi
@@ -43,7 +46,10 @@ services:
     ports:
       - "15432:5432"
     volumes:
+      # 初始化 SQL 仅在数据卷为空（首次启动）时执行一次
       - ./ruoyi-fastapi-backend/sql/ruoyi-fastapi-pg.sql:/docker-entrypoint-initdb.d/ruoyi-fastapi-pg.sql
+      # 数据持久化：down / 重建后数据不丢失
+      - ruoyi-pg-data:/var/lib/postgresql/data
     networks:
       - ruoyi-network
     healthcheck:
@@ -52,12 +58,16 @@ services:
       timeout: 10s
       retries: 30
 
-  # Redis服务
+  # Redis服务（有状态，开启 AOF 持久化并写入命名卷）
   ruoyi-redis:
     image: redis:latest
     container_name: ruoyi-redis
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
     ports:
       - "16379:6379"
+    volumes:
+      - ruoyi-redis-data:/data
     networks:
       - ruoyi-network
     healthcheck:
@@ -71,3 +81,10 @@ networks:
   ruoyi-network:
     name: ruoyi-network
     driver: bridge
+
+# 数据卷：postgres / redis 数据独立于容器生命周期，重建应用时不受影响
+volumes:
+  ruoyi-pg-data:
+    name: ruoyi-pg-data
+  ruoyi-redis-data:
+    name: ruoyi-redis-data

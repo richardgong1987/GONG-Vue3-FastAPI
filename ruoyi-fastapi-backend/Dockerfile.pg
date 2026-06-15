@@ -1,8 +1,11 @@
 FROM python:3.10
 WORKDIR /app
 
-# 复制源代码
+# 复制源代码（requirements 末尾的 "." 会安装本项目，需先有完整源码与 pyproject.toml）
 COPY . .
+
+# 安装依赖并安装本项目（使 pyproject.toml 中的 ruoyi 命令进入 PATH）
+RUN pip install --no-cache-dir -r requirements-pg.txt
 
 # 暴露端口
 EXPOSE 9099
