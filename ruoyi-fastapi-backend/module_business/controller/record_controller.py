@@ -19,9 +19,7 @@ from utils.common_util import bytes2file_response
 from utils.log_util import logger
 from utils.response_util import ResponseUtil
 
-record_controller = APIRouterPro(
-    prefix='/trd_trade_record/record', order_num=50, tags=['交易研究记录'], dependencies=[PreAuthDependency()]
-)
+record_controller = APIRouterPro(prefix='/trd_trade_record/record', order_num=50, tags=['交易研究记录'])
 
 
 @record_controller.get(
@@ -34,7 +32,7 @@ record_controller = APIRouterPro(
 async def get_trd_trade_record_record_list(
     request: Request,
     record_page_query: Annotated[RecordPageQueryModel, Query()],
-    query_db: Annotated[AsyncSession, DBSessionDependency()],
+    query_db: Annotated[AsyncSession, DBSessionDependency(), PreAuthDependency()],
 ) -> Response:
     # 获取分页数据
     record_page_query_result = await RecordService.get_record_list_services(query_db, record_page_query, is_page=True)
@@ -48,7 +46,6 @@ async def get_trd_trade_record_record_list(
     summary='新增交易研究记录接口',
     description='用于新增交易研究记录',
     response_model=ResponseBaseModel,
-    dependencies=[UserInterfaceAuthDependency('trd_trade_record:record:add')],
 )
 @ValidateFields(validate_model='add_record')
 @Log(title='交易研究记录', business_type=BusinessType.INSERT)
@@ -76,7 +73,7 @@ async def add_trd_trade_record_record(
 async def edit_trd_trade_record_record(
     request: Request,
     edit_record: RecordModel,
-    query_db: Annotated[AsyncSession, DBSessionDependency()],
+    query_db: Annotated[AsyncSession, DBSessionDependency(), PreAuthDependency()],
     current_user: Annotated[CurrentUserModel, CurrentUserDependency()],
 ) -> Response:
     edit_record_result = await RecordService.edit_record_services(query_db, edit_record)
@@ -96,7 +93,7 @@ async def edit_trd_trade_record_record(
 async def delete_trd_trade_record_record(
     request: Request,
     ids: Annotated[str, Path(description='需要删除的主键ID')],
-    query_db: Annotated[AsyncSession, DBSessionDependency()],
+    query_db: Annotated[AsyncSession, DBSessionDependency(), PreAuthDependency()],
 ) -> Response:
     delete_record = DeleteRecordModel(ids=ids)
     delete_record_result = await RecordService.delete_record_services(query_db, delete_record)
@@ -114,8 +111,8 @@ async def delete_trd_trade_record_record(
 )
 async def query_detail_trd_trade_record_record(
     request: Request,
-    id: Annotated[int, Path(description='主键ID')],
-    query_db: Annotated[AsyncSession, DBSessionDependency()],
+    id: Annotated[int, Path(description='主键ID')],  # noqa: A002
+    query_db: Annotated[AsyncSession, DBSessionDependency(), PreAuthDependency()],
 ) -> Response:
     record_detail_result = await RecordService.record_detail_services(query_db, id)
     logger.info(f'获取id为{id}的信息成功')
@@ -142,7 +139,7 @@ async def query_detail_trd_trade_record_record(
 async def export_trd_trade_record_record_list(
     request: Request,
     record_page_query: Annotated[RecordPageQueryModel, Form()],
-    query_db: Annotated[AsyncSession, DBSessionDependency()],
+    query_db: Annotated[AsyncSession, DBSessionDependency(), PreAuthDependency()],
 ) -> Response:
     # 获取全量数据
     record_query_result = await RecordService.get_record_list_services(query_db, record_page_query, is_page=False)
