@@ -15,7 +15,7 @@ class AppSettings(BaseSettings):
     """
 
     app_env: str = 'dev'
-    app_name: str = 'RuoYi-FasAPI'
+    app_name: str = 'Hanjingong-FasAPI'
     app_root_path: str = '/dev-api'
     app_host: str = '0.0.0.0'
     app_port: int = 9099
@@ -149,10 +149,10 @@ class GenSettings:
     代码生成配置
     """
 
-    author = 'insistence'
-    package_name = 'module_admin.system'
+    author = 'hanjingong'
+    package_name = 'module_business.admin'
     auto_remove_pre = False
-    table_prefix = 'sys_'
+    table_prefix = 'tr_'
     allow_overwrite = False
 
     GEN_PATH = 'vf_admin/gen_path'
