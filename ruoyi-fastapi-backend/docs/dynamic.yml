@@ -1,0 +1,66 @@
+http:
+  routers:
+    webhook:
+      rule: "Host(`webhook.raku-den.net`)"
+      entryPoints:
+        - websecure
+      service: webhook-svc
+      tls:
+        certResolver: le
+
+    webhook2:
+      rule: "Host(`webhook2.raku-den.net`)"
+      entryPoints:
+        - websecure
+      service: webhook2-svc
+      tls:
+        certResolver: le
+
+    webhook3:
+      rule: "Host(`webhook3.raku-den.net`)"
+      entryPoints:
+        - websecure
+      service: webhook3-svc
+      tls:
+        certResolver: le
+
+    tradeAdmin:
+      rule: "Host(`trade-admin.raku-den.net`)"
+      entryPoints:
+        - websecure
+      service: tradeAdmin
+      tls:
+        certResolver: le
+    tradeLocal:
+      rule: "Host(`trade-local.raku-den.net`)"
+      entryPoints:
+        - websecure
+      service: tradeLocal
+      tls:
+        certResolver: le
+
+  services:
+    webhook-svc:
+      loadBalancer:
+        servers:
+          - url: "http://100.64.0.1:8000"
+
+    webhook2-svc:
+      loadBalancer:
+        servers:
+          - url: "http://100.64.0.1:8000"
+
+    webhook3-svc:
+      loadBalancer:
+        servers:
+          - url: "http://100.64.0.7:8000"
+
+    tradeAdmin:
+      loadBalancer:
+        servers:
+          - url: "http://100.64.0.8:8208"
+    tradeLocal:
+      loadBalancer:
+        servers:
+          - url: "http://100.64.0.1:8208"
+
