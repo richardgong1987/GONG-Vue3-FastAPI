@@ -5,14 +5,12 @@ from pydantic import BaseModel, ConfigDict, Field
 from pydantic.alias_generators import to_camel
 
 
-
-
 class RecordModel(BaseModel):
     """
     交易研究记录表对应pydantic模型
     """
-    model_config = ConfigDict(alias_generator=to_camel, from_attributes=True)
 
+    model_config = ConfigDict(alias_generator=to_camel, from_attributes=True)
     id: int | None = Field(default=None, description='主键ID')
     key_point: str | None = Field(default=None, description='关键位，例如 PDH / PDL / PWH')
     direction: str | None = Field(default=None, description='多空：B=Buy，S=Sell')
@@ -27,14 +25,11 @@ class RecordModel(BaseModel):
     created_at: datetime | None = Field(default=None, description='创建时间')
 
 
-
-
-
-
 class RecordQueryModel(RecordModel):
     """
     交易研究记录不分页查询模型
     """
+
     pass
 
 
