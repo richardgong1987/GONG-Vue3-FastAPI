@@ -48,12 +48,10 @@ async def get_trd_trade_record_record_list(
     response_model=ResponseBaseModel,
 )
 @ValidateFields(validate_model='add_record')
-@Log(title='交易研究记录', business_type=BusinessType.INSERT)
 async def add_trd_trade_record_record(
     request: Request,
     add_record: RecordModel,
     query_db: Annotated[AsyncSession, DBSessionDependency()],
-    current_user: Annotated[CurrentUserModel, CurrentUserDependency()],
 ) -> Response:
     add_record_result = await RecordService.add_record_services(query_db, add_record)
     logger.info(add_record_result.message)
